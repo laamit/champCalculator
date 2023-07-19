@@ -1,0 +1,39 @@
+Package: champCalculator
+Title: CHAMP calculator
+Version: 0.0.1.0000
+Authors@R: 
+    person("Mitja", "Lääperi", , "mitja@laaperi.com", role = c("cre", "aut"))
+Description: Tool for calculating the risk for 30 day mortality using
+    CHAMP.
+License: MIT + file LICENSE
+URL: https://github.com/laamit/champCalculator
+BugReports: https://github.com/laamit/champCalculator/issues
+Depends: 
+    R (>= 4.0),
+    rms
+Imports: 
+    assertthat,
+    config (>= 0.3.1),
+    dplyr,
+    golem (>= 0.3.1),
+    openxlsx,
+    purrr,
+    readr,
+    readxl,
+    rlang,
+    shiny (>= 1.7.1),
+    shinythemes,
+    tibble
+Suggests: 
+    knitr,
+    rmarkdown,
+    shinytest,
+    spelling,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.2.3
