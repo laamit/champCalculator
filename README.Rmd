@@ -13,7 +13,7 @@ encountered by physician-staffed helicopter emergency medical services.
 
 ## Web-version
 
-Web-version is available at **WIP**
+Web-version is available at [https://champcalculator.onrender.com/](https://champcalculator.onrender.com/). Note that starting up the application might take a while and big data sets will probably not work on it.
 
 ## As R package
 
