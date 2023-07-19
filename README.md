@@ -2,14 +2,16 @@
 # What is CHAMP
 
 CHAMP calculator is a tool which utilizes the algorithm introduced by
-Reitala et. al 2022. to estimate a 30 day mortality risk in patients
+Reitala et. al 2023. to estimate a 30 day mortality risk in patients
 encountered by physician-staffed helicopter emergency medical services.
 
 # Launching the application
 
 ## Web-version
 
-Web-version is available at <https://champcalculator.herokuapp.com/>
+Web-version is available at <https://champcalculator.onrender.com/>.
+Note that starting up the application might take a while and big data
+sets will probably not work on it.
 
 ## As R package
 
@@ -50,16 +52,16 @@ single values or vectors of the same length.
 library(champCalculator)
 
 calculate_champ(rr = 100,
-pulse = 100,
-spo2 = 100,
-gcs = 15,
-time_to_hems = 100,
-cardiac_rhythm = 1,
-age = 20,
-medical_facility = 0,
-vehicle_ground_unit = 1,
-sex_male = 1,
-code = "trauma")
+               pulse = 100,
+               spo2 = 100,
+               gcs = 15,
+               time_from_alarm = 100,
+               cardiac_rhythm = 1,
+               age = 20,
+               medical_facility = 0,
+               vehicle_ground_unit = 1,
+               sex_man = 1,
+               code = "trauma")
 ```
 
 # Using the shiny app
@@ -125,12 +127,12 @@ avoid potentially unrealiable results.
 
 The columns included in the table are:
 
--   variable = Used to match the variable data to the variables used by
-    the application, DO NOT CHANGE
--   name_in_data = Name of the variable in the data to be uploaded to
-    the application
--   name_of_category = Category of the variable, DO NOT CHANGE
--   value = values of the category of the variable
+- variable = Used to match the variable data to the variables used by
+  the application, DO NOT CHANGE
+- name_in_data = Name of the variable in the data to be uploaded to the
+  application
+- name_of_category = Category of the variable, DO NOT CHANGE
+- value = values of the category of the variable
 
 You only need to make changes to the *name_in_data* and *value* columns.
 The name_in_data needs to match the name of the column in the data
@@ -158,16 +160,16 @@ calculate_champ-function to calculate the champ risk:
 library(champCalculator)
 
 calculate_champ(rr = 100,
-pulse = 100,
-spo2 = 100,
-gcs = 15,
-time_to_hems = 100,
-cardiac_rhythm = 1,
-age = 20,
-medical_facility = 0,
-vehicle_ground_unit = 1,
-sex_male = 1,
-code = "trauma")
+               pulse = 100,
+               spo2 = 100,
+               gcs = 15,
+               time_from_alarm = 100,
+               cardiac_rhythm = 1,
+               age = 20,
+               medical_facility = 0,
+               vehicle_ground_unit = 1,
+               sex_man = 1,
+               code = "trauma")
 ```
 
 Note that the calculate_champ-function expects the continous variables
@@ -207,7 +209,7 @@ unprocessed_data$risk <-  with(data_wrangled,
                   pulse = pulse,
                   spo2 = spo2,
                   gcs = gcs,
-                  time_to_hems = time_to_hems,
+                  time_from_alarm = time_from_alarm,
                   cardiac_rhythm = cardiac_rhythm,
                   age = age,
                   medical_facility = medical_facility,
