@@ -2,7 +2,7 @@
 #'
 #' @param gcs Glasgow Coma Scale. Missing values allowed.
 #' @param pulse Heart rate (bpm). Missing values allowed.
-#' @param rr Systolic blood pressure (mmHg). Missing values allowed.
+#' @param sbp Systolic blood pressure (mmHg). Missing values allowed.
 #' @param spo2 Oxygen saturation (%) as digits e.g. 1% = 1 rather than 0.01.
 #'  Missing values allowed.
 #' @param cardiac_rhythm Cardiac rhythm (VF, VT, Asystole, PEA). Missing values allowed.
@@ -25,7 +25,7 @@
 #'
 #' @description Calculates the CHAMP 30 day mortality risk for the given values.
 #' All the variables need to be of the same length. NA values are allowed for 
-#' *gcs*, *pulse*, *rr*, *cardiac_rhythm*, and *spo2* as the 
+#' *gcs*, *pulse*, *sbp*, *cardiac_rhythm*, and *spo2* as the 
 #' calculator will automatically select the model fitted for those variables.
 #'
 #' @return Vector of risks for each observation.
@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @examples
-#' calculate_champ(rr = 100,
+#' calculate_champ(sbp = 100,
 #'                pulse = 100,
 #'                spo2 = 100,
 #'                gcs = 15,
@@ -48,7 +48,7 @@
 #'                vehicle_ground_unit = 1,
 #'                sex_man = 1,
 #'                code = "trauma")
-#' calculate_champ(rr = 100,
+#' calculate_champ(sbp = 100,
 #'                pulse = 100,
 #'                spo2 = 100,
 #'                gcs = 15,
@@ -59,7 +59,7 @@
 #'                vehicle_ground_unit = 1,
 #'                sex_man = 1,
 #'                code = "trauma")
-#' calculate_champ(rr = rep(100, 3),
+#' calculate_champ(sbp = rep(100, 3),
 #'                pulse = rep(100, 3),
 #'                spo2 = rep(100, 3),
 #'                gcs = rep(15, 3),
@@ -71,7 +71,7 @@
 #'                sex_man = rep(1, 3),
 #'                code = rep("trauma", 3))
 #' 
-#' calculate_champ(rr = c(100, 200, 300),
+#' calculate_champ(sbp = c(100, 200, 300),
 #'                pulse = rep(100, 3),
 #'                spo2 = rep(100, 3),
 #'                gcs = rep(15, 3),
@@ -85,7 +85,7 @@
 #'                limit_values = TRUE)
 #' 
 #' 
-calculate_champ <- function(rr,
+calculate_champ <- function(sbp,
                             pulse,
                             spo2,
                             gcs,
@@ -107,7 +107,7 @@ calculate_champ <- function(rr,
   
   if (errors_as_warnings) {
     txt <- ""
-    if (!all(dplyr::between(rr, 0, 300), na.rm = TRUE)) {
+    if (!all(dplyr::between(sbp, 0, 300), na.rm = TRUE)) {
       txt <- paste(txt, "\nBlood pressure not between 0-300") }
     if (!all(dplyr::between(pulse, 0, 300), na.rm = TRUE)) {
       txt <- paste(txt, "\nHeart rate not between 0-300")} 
@@ -138,7 +138,7 @@ calculate_champ <- function(rr,
  
   } else {
     
-  assertthat::assert_that(all(dplyr::between(rr, 0, 300), na.rm = TRUE), 
+  assertthat::assert_that(all(dplyr::between(sbp, 0, 300), na.rm = TRUE), 
                           msg = "Blood pressure not between 0-300")
   assertthat::assert_that(all(dplyr::between(pulse, 0, 300), na.rm = TRUE), 
                           msg = "Heart rate not between 0-300")
@@ -174,7 +174,7 @@ calculate_champ <- function(rr,
   if ( all(is.na(sex_man)) ) {sex_man <- rep(NA_real_, length(sex_man))}
 
   
-  df_in <- dplyr::tibble(rr, pulse, cardiac_rhythm, spo2, gcs, time_from_alarm, 
+  df_in <- dplyr::tibble(sbp, pulse, cardiac_rhythm, spo2, gcs, time_from_alarm, 
                          age, medical_facility, vehicle_ground_unit, 
                          sex_man, code) %>% 
     ## convert boolean to 0/1
@@ -206,7 +206,7 @@ calculate_champ <- function(rr,
     df_limits <- tibble::tribble(
       ~x,               ~low,      ~up,
       "pulse",            25,       200, 
-      "rr",               51,       235, 
+      "sbp",              51,       235, 
       "spo2",             50,       100,
       "time_from_alarm",  4,        80,
     )
@@ -228,7 +228,7 @@ calculate_champ <- function(rr,
   ## use the best available model -> indicators for missingness from data
 df_in <- df_in %>% 
     dplyr::mutate(
-      ind_rr           = is.na(.data$rr),
+      ind_sbp           = is.na(.data$sbp),
       ind_pulse        = is.na(.data$pulse),
       ind_rhythm       = is.na(.data$cardiac_rhythm),
       ind_spo2         = is.na(.data$spo2),
@@ -238,7 +238,7 @@ df_in <- df_in %>%
   ## Add model fitted for each combination of available variables
   df_in_mods <- df_in %>% 
     dplyr::left_join(fit_imp, 
-                     by = c("ind_rr", "ind_pulse", "ind_rhythm", 
+                     by = c("ind_sbp", "ind_pulse", "ind_rhythm", 
                             "ind_spo2", "ind_gcs")) 
   
   # calculate score ---------------------------------------------------------
@@ -246,7 +246,10 @@ df_in <- df_in %>%
   
   log_or <- vapply(1:nrow(df_in_mods), function(row_i) {
     df_in_mods_i <- df_in_mods %>% slice(row_i)
-    predict(df_in_mods_i$mod[[1]], newdata = df_in_mods_i)
+    predict(df_in_mods_i$mod[[1]], 
+            # the original models use the term rr for sbp 
+            newdata = df_in_mods_i %>% mutate(rr = sbp) 
+            )
   }, numeric(1))
   
   risk <- exp(log_or) / (1 + exp(log_or))

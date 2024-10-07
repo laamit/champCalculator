@@ -95,7 +95,7 @@ mod_use_table_server <- function(id){
         ## create warnings for potentially bad variables
         txt <- "Warning:"
         
-        if (!all(dplyr::between(data_wrangled$rr, 0, 300), na.rm = TRUE)) {
+        if (!all(dplyr::between(data_wrangled$sbp, 0, 300), na.rm = TRUE)) {
           txt <- paste(txt, "\nBlood pressure not between 0-300") }
         if (!all(dplyr::between(data_wrangled$pulse, 0, 300), na.rm = TRUE)) {
           txt <- paste(txt, "\nHeart rate not between 0-300")} 
@@ -134,7 +134,7 @@ mod_use_table_server <- function(id){
       
       
       risk <- calculate_champ(
-        rr                  = data_wrangled$rr,
+        sbp                 = data_wrangled$sbp,
         pulse               = data_wrangled$pulse,
         spo2                = data_wrangled$spo2,
         gcs                 = data_wrangled$gcs,

@@ -63,7 +63,7 @@ mod_single_patient_ui <- function(id){
              numericInput(ns("pulse"), h3("Heart rate (bpm)"), 
                           value = NA, min = 20, max = 220),
              
-             numericInput(ns("rr"), h3("Systolic blood pressure (mmHg)"), 
+             numericInput(ns("sbp"), h3("Systolic blood pressure (mmHg)"), 
                           value = NA, min = 40, max = 250),
              
              numericInput(ns("spo2"), h3("Oxygen saturation (%)"), 
@@ -115,7 +115,7 @@ mod_single_patient_server <- function(id){
       
       risk <- calculate_champ(
         pulse               = input$pulse           %>% as.numeric(),
-        rr                  = input$rr              %>% as.numeric(),
+        sbp                 = input$sbp             %>% as.numeric(),
         spo2                = input$spo2            %>% as.numeric(),
         time_from_alarm     = input$time_from_alarm %>% as.numeric(),
         gcs                 = input$gcs             %>% as.numeric(),

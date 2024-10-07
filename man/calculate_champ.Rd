@@ -5,7 +5,7 @@
 \title{calculate_champ: Calculate the risk for 30 mortality using CHAMP}
 \usage{
 calculate_champ(
-  rr,
+  sbp,
   pulse,
   spo2,
   gcs,
@@ -21,7 +21,7 @@ calculate_champ(
 )
 }
 \arguments{
-\item{rr}{Systolic blood pressure (mmHg). Missing values allowed.}
+\item{sbp}{Systolic blood pressure (mmHg). Missing values allowed.}
 
 \item{pulse}{Heart rate (bpm). Missing values allowed.}
 
@@ -60,11 +60,11 @@ Vector of risks for each observation.
 \description{
 Calculates the CHAMP 30 day mortality risk for the given values.
 All the variables need to be of the same length. NA values are allowed for 
-*gcs*, *pulse*, *rr*, *cardiac_rhythm*, and *spo2* as the 
+*gcs*, *pulse*, *sbp*, *cardiac_rhythm*, and *spo2* as the 
 calculator will automatically select the model fitted for those variables.
 }
 \examples{
-calculate_champ(rr = 100,
+calculate_champ(sbp = 100,
                pulse = 100,
                spo2 = 100,
                gcs = 15,
@@ -75,7 +75,7 @@ calculate_champ(rr = 100,
                vehicle_ground_unit = 1,
                sex_man = 1,
                code = "trauma")
-calculate_champ(rr = 100,
+calculate_champ(sbp = 100,
                pulse = 100,
                spo2 = 100,
                gcs = 15,
@@ -86,7 +86,7 @@ calculate_champ(rr = 100,
                vehicle_ground_unit = 1,
                sex_man = 1,
                code = "trauma")
-calculate_champ(rr = rep(100, 3),
+calculate_champ(sbp = rep(100, 3),
                pulse = rep(100, 3),
                spo2 = rep(100, 3),
                gcs = rep(15, 3),
@@ -98,7 +98,7 @@ calculate_champ(rr = rep(100, 3),
                sex_man = rep(1, 3),
                code = rep("trauma", 3))
 
-calculate_champ(rr = c(100, 200, 300),
+calculate_champ(sbp = c(100, 200, 300),
                pulse = rep(100, 3),
                spo2 = rep(100, 3),
                gcs = rep(15, 3),

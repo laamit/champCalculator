@@ -41,7 +41,7 @@ c_vehicle <- wrangle_variable("HEMS vehicle", df_in, df_defintions)
 c_code <- wrangle_variable("Patient group", df_in, df_defintions)
 
 # calculate risk
-calculate_champ(rr = c_bp,
+calculate_champ(sbp = c_bp,
                pulse = c_pulse,
                spo2 = c_spo2,
                gcs = c_gcs,

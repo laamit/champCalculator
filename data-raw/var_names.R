@@ -3,7 +3,7 @@ var_names <- tibble::tribble(
   ~data,                                        ~func,
   "Age (years)",                               "age",
   "Heart rate (bpm)",                          "pulse",
-  "Systolic blood pressure (mmHg)",            "rr",
+  "Systolic blood pressure (mmHg)",            "sbp",
   "Oxygen saturation (%)",                     "spo2",
   "Time from alarm to HEMS arrival (minutes)",            "time_from_alarm",
   "Glasgow Coma Scale",                        "gcs",

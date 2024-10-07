@@ -51,7 +51,7 @@ single values or vectors of the same length.
 ``` r
 library(champCalculator)
 
-calculate_champ(rr = 100,
+calculate_champ(sbp = 100,
                pulse = 100,
                spo2 = 100,
                gcs = 15,
@@ -159,17 +159,17 @@ calculate_champ-function to calculate the champ risk:
 ``` r
 library(champCalculator)
 
-calculate_champ(rr = 100,
-               pulse = 100,
-               spo2 = 100,
-               gcs = 15,
-               time_from_alarm = 100,
-               cardiac_rhythm = 1,
-               age = 20,
-               medical_facility = 0,
-               vehicle_ground_unit = 1,
-               sex_man = 1,
-               code = "trauma")
+calculate_champ(sbp = 100,
+                pulse = 100,
+                spo2 = 100,
+                gcs = 15,
+                time_from_alarm = 100,
+                cardiac_rhythm = 1,
+                age = 20,
+                medical_facility = 0,
+                vehicle_ground_unit = 1,
+                sex_man = 1,
+                code = "trauma")
 ```
 
 Note that the calculate_champ-function expects the continous variables
@@ -205,15 +205,16 @@ data_wrangled <- lapply(champCalculator::var_names$data,
 
 # add the champ risk to the original data
 unprocessed_data$risk <-  with(data_wrangled, 
-  champCalculator::calculate_champ(rr = rr,
-                  pulse = pulse,
-                  spo2 = spo2,
-                  gcs = gcs,
-                  time_from_alarm = time_from_alarm,
-                  cardiac_rhythm = cardiac_rhythm,
-                  age = age,
-                  medical_facility = medical_facility,
-                  vehicle_ground_unit = vehicle_ground_unit,
-                  sex_male = sex_male,
-                  code = code))  
+  champCalculator::calculate_champ(
+  rbp = rbp,
+  pulse = pulse,
+  spo2 = spo2,
+  gcs = gcs,
+  time_from_alarm = time_from_alarm,
+  cardiac_rhythm = cardiac_rhythm,
+  age = age,
+  medical_facility = medical_facility,
+  vehicle_ground_unit = vehicle_ground_unit,
+  sex_male = sex_male,
+  code = code))  
 ```

@@ -8,7 +8,7 @@
 A tibble with 11 rows and 2 variables:
 \describe{
   \item{ind_pulse}{Indicator for missing pulse}
-  \item{ind_rr}{Indicator for missing blood pressure}
+  \item{ind_sbp}{Indicator for missing blood pressure}
   \item{ind_spo2}{Indicator for missing SpO2}
   \item{ind_gcs}{Indicator for missing GCS}
   \item{ind_rhythm}{Indicator for missing rhythm}
